@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta
+			name="viewport"
+			,content="width=device-width"
+			,
+			initial-scale="1.0"
+		/>
+
+		<link rel="stylesheet" href="admin-panel-1.css" />
+		<script src="./admin-panel/city.js"></script>
+		<title>Document</title>
+	</head>
+	<body>
+		<div class="top-section">
+			<div class="logo">
+				<div class="logo-img" id="img-1">
+					<img
+						src="../images/admin-panel/logo-1.png"
+						alt=""
+						width="100"
+						height="87"
+					/>
+				</div>
+				<div class="logo-img" id="img-2">
+					<img
+						src="../images/admin-panel/logo-2.png"
+						alt=""
+						width="110"
+						height="88"
+					/>
+				</div>
+				<div class="logo-img" id="img-3">
+					<img
+						src="../images/admin-panel/logo-3.png"
+						alt=""
+						width="100"
+						height="82"
+					/>
+				</div>
+				<div class="logo-img" id="img-4">
+					<img
+						src="../images/admin-panel/logo-4.png"
+						alt=""
+						width="80"
+						height="90"
+					/>
+				</div>
+			</div>
+			<div class="slogan">
+				<img
+					width="150px"
+					height="87px"
+					src="../../images/admin-panel/tagline.png"
+				/>
+			</div>
+		</div>
+
+		<div class="bg">
+			<img height="525px" src="../../images/admin-panel/tap-admin.png" />
+		</div>
+
+		<div class="login-form">
+			<form name="form1" action="#" onsubmit="required()">
+				<p>Admin Area</p>
+				<div class="input">
+					<input
+						id="uname"
+						type="text"
+						placeholder="Enter your user ID"
+						required
+					/>
+				</div>
+				<div class="input">
+					<input
+						id="password"
+						type="text"
+						placeholder="Enter your password"
+						required
+					/>
+				</div>
+				<div class="input">
+					<select name="state" id="countySel" size="1">
+						<option value="" selected="selected">
+							Select District
+						</option>
+					</select>
+				</div>
+				<div class="input">
+					<select name="countrya" id="stateSel" size="1">
+						<option value="" selected="selected">
+							Please select your district first
+						</option>
+					</select>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input
+							type="checkbox"
+							checked="checked"
+							name="remember"
+						/>
+						Keep me logged in
+					</label>
+				</div>
+
+				<div class="login">
+					<a>
+						<button
+							onclick="storeLoginId(this)"
+							class="login-btn"
+							type="button"
+							id="btn"
+						>
+							Login
+						</button>
+					</a>
+				</div>
+			</form>
+		</div>
+
+		<div class="minister">
+			<img
+				width="850px"
+				height="465px"
+				src="../../images/admin-panel/ministers.png"
+			/>
+		</div>
+
+		<script>
+			var loginId = markers;
+			var length = loginId.length;
+
+			function storeLoginId(e) {
+				var user = document.getElementById("uname");
+				var pw = document.getElementById("password");
+				var v1 = false;
+				for (var i = 0; i < length; i++) {
+					for (var j = 0; j < loginId[i].admins.length; j++) {
+						if (
+							user.value == loginId[i].admins[j] &&
+							pw.value == "root"
+						) {
+							v1 = true;
+							sessionStorage.userRole = user.value;
+						}
+					}
+				}
+				if (v1 == true) {
+					window.location.href =
+						"/admin-panel/admin-panel-map/admin-panel-map.html";
+				} else {
+					alert("ERROR : WRONG CREDENTIALS !");
+				}
+			}
+
+			document.querySelector("#uname").innerHTML = login.admins;
+		</script>
+
+		<script src="./minister-panel.js"></script>
+
+		<!-- JS for dropdown starts here -->
+
+		<script>
+			var stateObject = {
+                "Guwahati": { 
+                    "Beltola": [],
+                    "Lokhra": [],
+                    "Chandmari": [],
+                    "Maligaon": [],
+                    "Uzanbazar": [],
+                },
+                "Nalbari": {
+                    "Chamata": [],
+                    "Belsor": [],
+                    "Charabari": [],
+                    "Tihu": [],
+                    "Marowa": [],
+                }, 
+                "Tezpur": {
+                    "Parua Harigaon No 1": [],
+                    "Majgaon PWSS": [],
+                    "Deuri-gaon PWSS": [],
+                    "Hazarapar PWSS": [],
+                    "Poruwa-2": []
+                }
+            };
+			window.onload = function () {
+				var countySel = document.getElementById("countySel"),
+					stateSel = document.getElementById("stateSel");
+
+				for (var country in stateObject) {
+					countySel.options[countySel.options.length] = new Option(
+						country,
+						country
+					);
+				}
+				countySel.onchange = function () {
+					stateSel.length = 1; // remove all options bar first
+
+					if (this.selectedIndex < 1) return; // done
+					for (var state in stateObject[this.value]) {
+						stateSel.options[stateSel.options.length] = new Option(
+							state,
+							state
+						);
+					}
+				};
+				countySel.onchange(); // reset in case page is reloaded
+				stateSel.onchange = function () {
+					if (this.selectedIndex < 1) return; // done
+					var district = stateObject[countySel.value][this.value];
+					for (var i = 0; i < district.length; i++) {
+						districtSel.options[districtSel.options.length] =
+							new Option(district[i], district[i]);
+					}
+				};
+			};
+		</script>
+
+		<!-- JS for dropdownends here -->
+	</body>
+</html>

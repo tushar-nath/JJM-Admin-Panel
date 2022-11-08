@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="admin-panel-2.css" />
+    <!-- Font Awesome -->
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+        rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.css"
+        rel="stylesheet"
+    />
+    <script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.js"
+    ></script>
+    <script src="../subplaces.js"></script>
+    <script src="../query.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sb-upper-row">
+                <div class="sb-upper-row-img">
+                    <img src="../../images/admin-panel/element-1.png">
+                </div>
+                <div class="sb-upper-row-title">
+                    <p>Dashboard</p>
+                </div>
+            </div>
+        </div>
+        <div class="app-container">
+            <!-- navbar code -->
+            <div class="navbar">
+                <div class="search-bar">
+                    <div class="input-group">
+                        <div class="form-outline">
+                          <input id="search-input" type="search" id="form1" class="form-control" />
+                          <label class="form-label" for="form1">Search Jal Jeevan Location</label>
+                        </div>
+                        <button id="search-button" type="button" class="btn btn-primary">
+                          <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="profile-section">
+                    <img id="profile-img" width="50px" height="52px" src="../../images/admin-panel/profile.png">
+                    <div class="details">
+                        <div class="name">
+                            <p>JAYANTA MALLA BARUAH</p>
+                        </div>
+                        <div class="designation">
+                            <p>PHE MINISTER</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="app-data">
+                    <div class="buttons">
+                        <div class="btn-1">
+                            <a href="#">
+                            <button type="button" class="btn" id="btn-1">Solved Queries</button>
+                            </a>
+                        </div>
+                        <div class="btn-2">
+                            <a href="#">
+                            <button type="button" class="btn" id="btn-2">Unsolved Queries</button>
+                            </a>
+                        </div>
+                    </div>
+                <div class="app-info">
+                    <div class="tile-container">
+                        <div class="tile-header" id="header">CLICK THE MARKERS ON THE MAP FOR DETAILED ANALYSIS</div>
+                        <div id="tiles" class="tiles">
+                            <!-- Import tiles from JSON file -->
+                        </div>
+                    </div>
+                    <div class="map-container">
+                        <div class="map">
+                            <div id="dvMap"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9eZSv0tYx-w_JFwer5_SCNGwpRCNGb00&sensor=false&callback=initialize"></script>
+    <script type="text/javascript">
+    
+    window.onload = function () {
+        LoadMap();
+    }
+    function LoadMap() {
+        var bounds = new google.maps.LatLngBounds();
+        var mapOptions = {
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+
+        //Create and open InfoWindow.
+        var infoWindow = new google.maps.InfoWindow();
+
+
+        for (var i = 0; i < markers.length; i++) {
+            var data = markers[i];
+            var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+
+            //extend the bounds to include each marker's position
+            bounds.extend(myLatlng);
+
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: data.title
+            });
+
+            const contentString =
+            '<div id="popup">' +
+
+                '<div id="popup-btn">' + '<a><button onClick="refreshPage()">Show Detail Analysis</button></a>' + '</div>' +
+
+            '</div>';
+
+            //Attach click event to the marker.
+            (function (marker, data) {
+                google.maps.event.addListener(marker, "click", function (e) {
+                    //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
+                    infoWindow.setContent(contentString);
+                    infoWindow.open(map, marker); 
+                    sessionStorage.districtId = data.id;
+                });
+            })(marker, data);
+
+            //now fit the map to the newly inclusive bounds
+            google.maps.event.addListenerOnce(map, 'idle', function() {
+            map.fitBounds(bounds);
+            });
+        }
+    }
+
+    
+    function refreshPage(){
+        const districtId = sessionStorage.getItem("districtId") || "0";
+        var area = subplaces[districtId];
+        var containerElm = document.getElementById("tiles");
+        var str = '';
+        for(var i=0, len=area.length; i<len; i++) {
+            var divStr = '<div class="tile-1">' +
+                                '<div class="tile-img">' +
+                                    '<img height="200px" width="300px" src="../../images/admin-panel/tile-img.png">' +
+                                '</div>' +
+                                '<div class="tile-info">' +
+                                    '<div id="centre" class="centre-value">' + area[i].title + '</div>' +
+                                    '<p class="jal-jeevan" id="jal-jeevan">JAL JEEVAN CENTRE</p>' +
+                                    '<div class="queries" id="queries">' +
+                                        '<img class="green-dot" width="20" height="20" src="https://img.icons8.com/emoji/48/000000/green-circle-emoji.png"/>' +
+                                        // '<div id="solved" class="solved-queries">'+ query[area[i].queryId][1].length +' solved queries</div>' +
+                                        '<div id="solved" class="solved-queries">92 solved queries</div>' +
+                                        '<img class="red-dot" width="20" height="20" src="https://img.icons8.com/emoji/48/000000/red-circle-emoji.png"/>' +
+                                        // '<div id="unsolved" class="unsolved-queries">'+ query[area[i].queryId][0].length +' unsolved queries</div>' +
+                                        '<div id="unsolved" class="unsolved-queries">92 unsolved queries</div>' +
+                                    '</div>' +
+                                    '<div id="supervisor" class="supervisor-value">Supervisor Name - ' + area[i].supervisor + '</div>' +
+                                    '<a href="../admin-panel-3/admin-panel-3.html">' +
+                                       '<button onclick="storeAreaId(this);" type="button" class="btn btn-primary" value="' + area[i].btnid + '" >Click here</button>' +
+                                    '</a>' +
+                                '</div>' +
+                            '</div>';
+            str = str + divStr;
+        }
+        containerElm.innerHTML = str;
+
+    }
+
+    var districtId = sessionStorage.getItem("districtId") || "0";
+    if(districtId === "1") {
+		var areaId = sessionStorage.getItem("areaId") || "0";
+		areaId -= "1";
+	}
+	else if(districtId  === "2") {
+		var areaId = sessionStorage.getItem("areaId") || "0";
+		areaId -= "6";
+	}
+	else {
+		var areaId = sessionStorage.getItem("areaId") || "0";
+		areaId -= "11";
+	}
+
+    function storeAreaId(e) {
+        var id = e.getAttribute('value');
+        sessionStorage.areaId = id;
+        var area = subplaces[districtId][areaId];
+        sessionStorage.queryId = area.queryId;
+    }
+
+    </script>
+    
+    <script src="../navbar.js"></script>
+    <script src="../city.js"></script>
+</body>
+</html>

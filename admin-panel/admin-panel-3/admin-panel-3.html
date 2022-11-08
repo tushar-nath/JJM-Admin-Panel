@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="admin-panel-3.css" />
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.css"
+      rel="stylesheet"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.js"
+    ></script>
+    <script src="../subplaces.js"></script>
+    <script src="../query.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="dashboard">
+      <div class="sidebar">
+        <div class="sb-upper-row">
+          <div class="sb-upper-row-img">
+            <img src="../../images/admin-panel/element-1.png" />
+          </div>
+          <div class="sb-upper-row-title">
+            <p>Dashboard</p>
+          </div>
+        </div>
+      </div>
+      <div class="app-container">
+        <!-- navbar code -->
+        <div class="navbar">
+          <div class="search-bar">
+            <div class="input-group">
+              <div class="form-outline">
+                <input
+                  id="search-input"
+                  type="search"
+                  id="form1"
+                  class="form-control"
+                />
+                <label class="form-label" for="form1"
+                  >Search Jal Jeevan Location</label
+                >
+              </div>
+              <button id="search-button" type="button" class="btn btn-primary">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+          <div class="profile-section">
+            <img
+              id="profile-img"
+              width="50px"
+              height="52px"
+              src="../../images/admin-panel/profile.png"
+            />
+            <div class="details">
+              <div class="name">
+                <p>JAYANTA MALLA BARUAH</p>
+              </div>
+              <div class="designation">
+                <p>PHE MINISTER</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="app-data">
+          <div class="header">
+            <div id="town"></div>
+          </div>
+          <div class="tile-container">
+            <div class="upper-row">
+              <div class="card">
+                <div class="key">Active IOT Centres</div>
+                <div id="active" class="value"></div>
+                <div id="active-per" class="percentage"></div>
+              </div>
+              <div class="card">
+                <div class="key">Household Connection</div>
+                <div id="household" class="value"></div>
+                <div id="household-per" class="percentage"></div>
+              </div>
+              <div class="card">
+                <div class="key">Current ph</div>
+                <div id="ph" class="value"></div>
+                <div id="ph-per" class="percentage"></div>
+              </div>
+            </div>
+            <div class="lower-row">
+              <div class="card">
+                <div class="key">Residual Chlorine</div>
+                <div id="chlorine" class="value"></div>
+                <div id="chlorine-per" class="percentage"></div>
+              </div>
+              <div class="card">
+                <div class="key">TDS</div>
+                <div id="tds" class="value"></div>
+                <div id="tds-per" class="percentage"></div>
+              </div>
+              <div class="card">
+                <div class="key">Water Flow</div>
+                <div id="water" class="value"></div>
+                <div id="water-per" class="percentage"></div>
+              </div>
+            </div>
+          </div>
+          <div class="activities">
+            <div id="activities">Latest Activities</div>
+          </div>
+          <div class="queries">
+            <div class="unsolved-queries">
+              <table class="table table-striped">
+                <tr class="bg-info">
+                  <th>No.</th>
+                  <th>New Queries</th>
+                  <th>Date</th>
+                  <th>Message</th>
+                  <th></th>
+                </tr>
+                <tbody id="unsolvedTable"></tbody>
+              </table>
+            </div>
+            <div class="solved-queries">
+              <table class="table table-striped">
+                <tr class="bg-info">
+                  <th>Supervisor</th>
+                  <th>Query Solved</th>
+                </tr>
+                <tbody id="solvedTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // JS function for tiles
+      var districtId = sessionStorage.getItem("districtId") || "0";
+      if (districtId === "1") {
+        var areaId = sessionStorage.getItem("areaId") || "0";
+        areaId -= "1";
+      } else if (districtId === "2") {
+        var areaId = sessionStorage.getItem("areaId") || "0";
+        areaId -= "6";
+      } else {
+        var areaId = sessionStorage.getItem("areaId") || "0";
+        areaId -= "11";
+      }
+      var area = subplaces[districtId][areaId];
+      var queryId = area.queryId;
+
+      window.onload = () => {
+        fetch(`http://50.16.7.123:3000/account/${queryId}`)
+          .then((r) => r.json())
+          .then((data) => {
+            var data = data;
+            // JS function to build the unsolved table
+            buildUnsolvedTable(data[1]);
+            function buildUnsolvedTable(data) {
+              var table = document.getElementById("unsolvedTable");
+              for (var i = 0; i < data.length; i++) {
+                  var row = `<tr>
+                                <td>${data[i].id}</td>
+                                <td>${data[i].user}</td>
+                                <td>${data[i].date}</td>
+                                <td>${data[i].message}</td>
+                                <td><a href="../admin-panel-4/admin-panel-4.html"><button onclick="storeQueryId(this)" value = "${data[i].id}" type="button" class="btn btn-primary btn-sm">Submit</button></a></td>
+                                </tr>`;
+                  table.innerHTML += row;
+              }
+            }
+
+            // JS function to build the solved table
+            buildSolvedTable(data[0]);
+            function buildSolvedTable(data) {
+              var table = document.getElementById("solvedTable");
+              for (var i = 0; i < data.length; i++) {
+                  var row = `<tr>
+                                <td>${data[i].user}</td>
+                                <td>${data[i].message}</td>
+                                </tr>`;
+                  table.innerHTML += row;
+              }
+            }
+          });
+      };
+
+      document.querySelector("#town").innerHTML = area.title + "&nbspDashboard";
+      document.querySelector("#active").innerHTML = area.total;
+      document.querySelector("#active-per").innerHTML = area.totalPercentage;
+      document.querySelector("#household").innerHTML = area.household;
+      document.querySelector("#household-per").innerHTML = area.householdPercentage;
+      document.querySelector("#ph").innerHTML = area.ph;
+      document.querySelector("#ph-per").innerHTML = area.phPercentage;
+      document.querySelector("#chlorine").innerHTML = area.chlorine;
+      document.querySelector("#chlorine-per").innerHTML = area.chlorinePercentage;
+      document.querySelector("#tds").innerHTML = area.lpcd;
+      document.querySelector("#tds-per").innerHTML = area.tdsPercentage;
+      document.querySelector("#water").innerHTML = area.waterflow;
+      document.querySelector("#water-per").innerHTML = area.waterPercentage;
+
+      //JS function to store the value of button value
+      function storeQueryId(e) {
+        var id = e.getAttribute("value");
+        console.log(id);
+        sessionStorage.messageId = id;
+      }
+    </script>
+    <script src="../navbar.js"></script>
+    <script src="../city.js"></script>
+  </body>
+</html>

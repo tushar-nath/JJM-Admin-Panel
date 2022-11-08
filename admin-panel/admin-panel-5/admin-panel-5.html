@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="admin-panel-5.css" />
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+  <!-- MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.css" rel="stylesheet" />
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.js"></script>
+  <!-- <script type="module" src="./admin-panel-5.js"></script> -->
+  <script src="../city.js"></script>
+  <script src="../subplaces.js"></script>
+  <script src="../query.js"></script>
+  <!-- <script>"https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js"</script>
+        <script>"https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js"</script> -->
+  <!-- <script type="module" src="index.js" charset="utf-8"></script> -->
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="dashboard">
+    <div class="sidebar">
+      <div class="sb-upper-row">
+        <div class="sb-upper-row-img">
+          <img src="../../images/admin-panel/element-1.png" />
+        </div>
+        <div class="sb-upper-row-title">
+          <p>Dashboard</p>
+        </div>
+      </div>
+    </div>
+    <div class="app-container">
+      <!-- navbar code -->
+      <div class="navbar">
+        <div class="search-bar">
+          <div class="input-group">
+            <div class="form-outline">
+              <input id="search-input" type="search" id="form1" class="form-control" />
+              <label class="form-label" for="form1">Search Jal Jeevan Location</label>
+            </div>
+            <button id="search-button" type="button" class="btn btn-primary">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+        <div class="profile-section">
+          <img id="profile-img" width="50px" height="52px" src="../../images/admin-panel/profile.png" />
+          <div class="details">
+            <div class="name">
+              <p>JAYANTA MALLA BARUAH</p>
+            </div>
+            <div class="designation">
+              <p>PHE MINISTER</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- navbar ends -->
+
+      <div class="app-data">
+        <div class="header">
+          <div id="town">Porua Chariali Dashboard</div>
+        </div>
+        <div class="tile-container">
+          <div class="upper-row">
+            <div class="card">
+              <div class="key">Total Tap Connection</div>
+              <div class="value">1285</div>
+            </div>
+            <div class="card">
+              <div class="key">Supervisor Name</div>
+              <div class="value">Haren Das</div>
+            </div>
+          </div>
+          <div class="lower-row">
+            <div class="card">
+              <div class="key">Total Nearby Centers</div>
+              <div class="value">500</div>
+            </div>
+          </div>
+        </div>
+        <div class="queries">
+          <div class="title">
+            <p id="title">Queries</p>
+          </div>
+          <div class="desc">
+            <p id="desc">
+              The PH sensor at Poruwa chariali location is showing error as it
+              is recording value below 6.5 as it is going against JJM Norms.
+            </p>
+          </div>
+          <div id="checkbox">
+            <div class="checkbox-1">
+              <input type="radio" name="a" value="for Lab Test" />
+              <label class="radio-button"> Send for Lab Test </label>
+            </div>
+            <div class="checkbox-2">
+              <input type="radio" name="a" value="a Respresentative" />
+              <label class="radio-button"> Send a representative </label>
+            </div>
+          </div>
+
+          <div class="solve-btn" id="solve-btn">
+            <button id="BTN" onclick="hideFunction();displayRadioValue();showFunction();getapi();" type="button"
+              class="btn btn-primary btn-sm">
+              Submit
+            </button>
+          </div>
+
+          <div class="result" id="result" style="display: none"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <a href="../../admin-panel-1.html">
+      <button class="btn-next" type="button" id="btn-next">Home</button>
+    </a>
+  </div>
+
+  <script>
+    //JS Code to solve query
+    var userRole = sessionStorage.getItem("userRole") || "0";
+    var districtId = sessionStorage.getItem("districtId") || "0";
+    var messageId = sessionStorage.getItem("messageId") || "0";
+    if (districtId === "1") {
+      var areaId = sessionStorage.getItem("areaId") || "0";
+      areaId -= "1";
+    } else if (districtId === "2") {
+      var areaId = sessionStorage.getItem("areaId") || "0";
+      areaId -= "6";
+    } else {
+      var areaId = sessionStorage.getItem("areaId") || "0";
+      areaId -= "11";
+    }
+
+    var city = markers[districtId - "1"];
+    var area = subplaces[districtId][areaId];
+    var allQueries = query[area.queryId];
+
+    //   function solveQuery() {
+    //     for (var i = 0; i < allQueries.length; i++) {
+    //       var flag = 0;
+    //       var notAuthorised = 0;
+    //       for (var j = 0; j < 4; j++) {
+    //         if (city.admins[j] == userRole) {
+    //           flag = 1;
+    //           console.log(city.admins[j]);
+    //         }
+    //       }
+    //       if (flag == 1) {
+    //         if (allQueries[i].id == messageId) {
+    //         //   getapi();
+    // 		console.log(allQueries[i].id);
+    //         }
+    //       } else {
+    //         notAuthorised = 1;
+    //       }
+    //     }
+    //     if (notAuthorised == 1) {
+    //       alert("You are not authorised");
+    //     }
+
+    //     // console.log(allQueries[0].status);
+    //   }
+
+    //JS Code to hide the submit button
+    function hideFunction() {
+      var x = document.getElementById("checkbox");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+
+    //JS Code to display the hidden div
+    function showFunction() {
+      document.getElementById("result").style.display = "block";
+      document.getElementById("solve-btn").style.display = "none";
+    }
+
+    //JS Code to display the radio value
+    function displayRadioValue() {
+      var ele = document.getElementsByName("a");
+
+      for (i = 0; i < ele.length; i++) {
+        if (ele[i].checked) {
+          document.getElementById("result").innerHTML =
+            "Sent " + ele[i].value;
+        }
+      }
+    }
+
+    // Defining async function
+    async function getapi() {
+      var queryId = area.queryId;
+      var messageId = sessionStorage.getItem("messageId") || "0";
+      if (userRole == "admin1" || userRole == "admin2" || userRole == "admin3") {
+        userRole = "admin";
+      }
+      else if (userRole == "sdo1" || userRole == "sdo2" || userRole == "sdo3") {
+        userRole = "sdo";
+      }
+      else if (userRole == "engineer1" || userRole == "engineer2" || userRole == "engineer3") {
+        userRole = "engineer";
+      }
+      else {
+        userRole = "supervisor";
+      }
+      var body = {
+        flag: "1"
+      }
+      console.log(JSON.stringify(body));
+      const response = await fetch(
+        `http://50.16.7.123:3000/account/${userRole}/${queryId}/${messageId}`,
+        {
+          method: "PUT",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        }
+      );
+      var data = await response.json();
+      console.log(data);
+    }
+  </script>
+</body>
+
+</html>

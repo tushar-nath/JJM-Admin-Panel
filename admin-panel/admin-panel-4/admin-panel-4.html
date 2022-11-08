@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="admin-panel-4.css" />
+		<!-- Font Awesome -->
+		<link
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+			rel="stylesheet"
+		/>
+		<!-- Google Fonts -->
+		<link
+			href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+			rel="stylesheet"
+		/>
+		<!-- MDB -->
+		<link
+			href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.css"
+			rel="stylesheet"
+		/>
+		<script
+			type="text/javascript"
+			src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.js"
+		></script>
+		<script src="../subplaces.js"></script>
+		<script src="../query.js"></script>
+
+		<title>Document</title>
+	</head>
+	<body>
+		<div class="dashboard">
+			<div class="sidebar">
+				<div class="sb-upper-row">
+					<div class="sb-upper-row-img">
+						<img src="../../images/admin-panel/element-1.png" />
+					</div>
+					<div class="sb-upper-row-title">
+						<p>Dashboard</p>
+					</div>
+				</div>
+			</div>
+			<div class="app-container">
+				<!-- navbar code -->
+				<div class="navbar">
+					<div class="search-bar">
+						<div class="input-group">
+							<div class="form-outline">
+								<input
+									id="search-input"
+									type="search"
+									id="form1"
+									class="form-control"
+								/>
+								<label class="form-label" for="form1"
+									>Search Jal Jeevan Location</label
+								>
+							</div>
+							<button
+								id="search-button"
+								type="button"
+								class="btn btn-primary"
+							>
+								<i class="fas fa-search"></i>
+							</button>
+						</div>
+					</div>
+					<div class="profile-section">
+						<img
+							id="profile-img"
+							width="50px"
+							height="52px"
+							src="../../images/admin-panel/profile.png"
+						/>
+						<div class="details">
+							<div class="name">
+								<p>JAYANTA MALLA BARUAH</p>
+							</div>
+							<div class="designation">
+								<p>PHE MINISTER</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="app-data">
+					<div class="header">
+						<div id="town">Porua Chariali Dashboard</div>
+					</div>
+					<div class="tile-container">
+						<div class="upper-row">
+							<div class="card">
+								<div class="key">Total Tap Connection</div>
+								<div id="tap" class="value"></div>
+							</div>
+							<div class="card">
+								<div class="key">Supervisor Name</div>
+								<div id="supervisor" class="value"></div>
+							</div>
+						</div>
+						<div class="lower-row">
+							<div class="card">
+								<div class="key">Total Nearby Centers</div>
+								<div id="nearby" class="value"></div>
+							</div>
+						</div>
+					</div>
+					<div class="queries">
+						<div class="title">
+							<p id="title">Queries</p>
+						</div>
+						<div class="desc">
+							<p id="desc"></p>
+						</div>
+
+						<div class="Link">
+                            <a href="../admin-panel-5/admin-panel-5.html">SOLVE QUERY</a>
+                    	</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<script>
+			// JS function to tiles
+			var districtId = sessionStorage.getItem("districtId") || "0";
+			if (districtId === "1") {
+				var areaId = sessionStorage.getItem("areaId") || "0";
+				areaId -= "1";
+			} else if (districtId === "2") {
+				var areaId = sessionStorage.getItem("areaId") || "0";
+				areaId -= "6";
+			} else {
+				var areaId = sessionStorage.getItem("areaId") || "0";
+				areaId -= "11";
+			}
+			var area = subplaces[districtId][areaId];
+
+			var messageId = sessionStorage.getItem("messageId") || "0";
+
+			var allQueries = query[area.queryId];
+
+			for (var i = 0; i < allQueries.length; i++) {
+				if(allQueries[i].id == messageId) {
+					console.log(messageId);
+					var message = allQueries[i].msgDesc;
+				}
+			}
+
+			document.querySelector("#town").innerHTML = area.title + "&nbspDashboard";
+			document.querySelector("#tap").innerHTML = area.tap;
+			document.querySelector("#supervisor").innerHTML = area.supervisor;
+			document.querySelector("#nearby").innerHTML = area.total;
+			document.querySelector("#desc").innerHTML = message;
+		</script>
+	</body>
+</html>

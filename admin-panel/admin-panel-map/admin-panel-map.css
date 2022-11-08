@@ -1,0 +1,414 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono&family=Inter&family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Poppins;
+    overflow: hidden;
+}
+
+.dashboard {
+    width: 100%;
+    display: flex;
+}
+
+
+/* sidebar styles */
+.sidebar {
+    width: 15%;
+    height: 1000px;
+    background-color: #0A68FF;
+}
+
+.sb-upper-row {
+    display: flex;
+    justify-content: center;
+    margin: 20% 2% 2% 2%;
+}
+
+.sb-upper-row-img {
+    margin-right: 5%;
+}
+
+.sb-upper-row-title {
+    font-weight: 100 !important;
+    font-size: 16px;
+    color: #ffff;
+}
+
+.sb-lower-row {
+    display: flex;
+    justify-content: center;
+    margin: 10% 2% 2% 2%;
+}
+
+.sb-lower-row-img {
+    margin-right: 5%;
+}
+
+.sb-lower-row-title {
+    font-weight: 100 !important;
+    font-size: 16px;
+    color: #ffff;
+}
+
+
+/* container styles */
+.app-container {
+    width: 85%;
+    height: 100vh;
+}
+
+.navbar {
+    display: flex;
+    width: 100%;
+    height: 80px;
+    background-color: #F45C20;
+}
+
+.search-bar {
+    width: 40%;
+}
+
+.input-group {
+    margin-left: 40%;
+}
+
+.form-outline {
+    background-color: #ffff;
+    width: 50%;
+    border-radius: 5px;
+}
+
+.form-outline .form-control.active~.form-label, .form-outline .form-control:focus~.form-label {
+    transform: translateY(-1.5rem) translateY(0.1rem) scale(.8) !important;
+    color: white !important;
+}
+
+.profile-section {
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+    height: 50px;
+    margin-right: 2%;
+}
+
+#bell {
+    padding: 4% 2% 2% 2%;
+    margin-right: 2%;
+    color: white;
+}
+
+#email {
+    padding: 4% 2% 2% 2%;
+    margin-right: 2%;
+    color: white;
+}
+
+#profile-img {
+    margin-right: 2%;
+}
+
+.name {
+    font-size: 15px;
+    color: white;
+    margin: 0;
+}
+
+.name p {
+    margin: 0;
+    padding-top: 1%;
+}
+
+.designation {
+    font-size: 11px;
+    color: white;
+    margin: 0;
+}
+
+.designation p {
+    margin: 0;
+    padding-top: 1%;
+}
+
+.app-data{
+    margin: 0%;
+    padding: 0%;
+}
+
+.buttons{
+    width: 100%;
+    height: 100px;
+}
+
+.app-info{
+    display: flex;
+    width: 100%;
+    height: 80vh;
+}
+
+
+/* MAP CONTAINER STARTS */
+
+.map-container{
+    margin: 2% 0% 2% 0%;
+    width: 100%;
+    height: 780px;
+    padding-top: 1.5%;
+}
+
+.map-container-box{
+    background: #E7E7E7;
+    width: 90%;
+    height: 750px;
+    margin: auto;
+    background-color: #E7E7E7;
+    padding: 2%;
+    border-radius: 5px;
+}
+#dvMap{
+    width: 97%;
+    height: 700px; 
+    margin: auto;
+}
+
+/* Marker Popup Design starts */
+/* 
+#popup {
+    width: 340px;
+}
+
+#popup-header {
+    margin: 2% 0% 0% 2%;
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 1vw;
+    line-height: 29px;
+    letter-spacing: 0px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+#popup-place {
+    display: flex;
+    font-family: Poppins;
+    font-weight: 500;
+
+}
+
+#state {
+    color: rgba(244, 92, 32, 1);
+}
+
+#popup-img {
+    border-radius: 15px;
+    text-align: center;
+    margin: 3% 2% 3% 2%;
+    padding: 2%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+#popup-tile {
+    font-size: 0.75vw;
+    display: flex !important;
+    margin: 2%;
+    font-family: Poppins;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #0A68FF;
+    color: white;
+}
+
+#popup-key {
+    margin-top: 4%;
+    width: 80%;
+    padding-left: 3%;
+}
+
+#popup-value {
+    width: 20%;
+    text-align: center;
+    position: relative;
+    top: 13px;
+}
+
+#popup-btn {
+    padding: 3%;
+    margin-top: 4%;
+    text-align: center;
+}
+
+#popup-btn button {
+    cursor: pointer;
+    border-style: none;
+    padding: 2% 5% 2% 5%;
+    border-radius: 7px;
+    color: white;
+    background-color: #0A68FF;
+} */
+
+#popup {
+    width: 100%;
+}
+
+#popup-header {
+    margin: 2% 0% 0% 0%;
+    font-family: Poppins;
+    font-size: 17px;
+    line-height: 29px;
+    letter-spacing: 0px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+#popup-place {
+    display: flex;
+}
+
+#state {
+    color: rgba(244, 92, 32, 1);
+}
+
+/* #popup-img {
+    border-radius: 15px;
+    text-align: center;
+    margin: 3% 2% 3% 2%;
+    padding: 2%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+} */
+
+#popup-tile {
+    background-color: #0A68FF;
+    opacity: 90%;
+    font-size: 12px;
+    display: flex !important;
+    margin: 2%;
+    font-family: Poppins;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+#popup-key {
+    color: #E7E7E7;
+    width: 70%;
+    padding-left: 3%;
+    position: relative;
+    top: 9px;
+}
+
+#popup-value {
+    color: #E7E7E7;
+    width: 30%;
+    text-align: center;
+    position: relative;
+    top: 9px;
+}
+
+#popup-btn {
+    padding: 3%;
+    margin-top: 4%;
+    text-align: center;
+}
+
+#popup-btn button {
+    cursor: pointer;
+    border-style: none;
+    padding: 2% 5% 2% 5%;
+    border-radius: 7px;
+    color: white;
+    background-color: #0A68FF;
+}
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding: 1%; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    padding: 1%;
+    background-color: #fefefe;
+    margin: auto;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+
+  #modal-text {
+    text-transform: uppercase;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 20px;
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+#btn1 {
+    position: absolute ;
+    top: 20px;
+}
+
+#btn2 {
+    position: absolute ;
+    top: 50px;
+}
+
+#btn3 {
+    position: absolute ;
+    top: 70px;
+}
+
+@media screen and (max-width: 1250px) {
+    #container {
+        position: absolute;
+        top:60.7%;
+        left:12%;
+        width: 806px;
+        height: 290px;
+        background-color: white;
+        overflow-y: scroll;
+       
+    }
+}
+
+@media screen and (max-width: 1020px) {
+    #container {
+        position: absolute;
+        top:60.7%;
+        left:6%;
+        width: 80%;
+        height: 290px;
+        background-color: white;
+        overflow-y: scroll;
+       
+    }
+}
+
+/* Marker Popup Design ends */
+
+
+/* MAP CONTAINER ENDS */

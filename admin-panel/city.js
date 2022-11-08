@@ -1,0 +1,36 @@
+var markers = [
+	{
+		id: "1",
+		title: "Dhekiajuli",
+		lat: "26.6985",
+		lng: "92.4851",
+		total: "1500",
+		active: "1250",
+		iot: "1000",
+		upcoming: "237",
+		admins: ["admin1", "supervisor1", "sdo1", "engineer1"],
+
+	},
+	{
+		id: "2",
+		title: "Chariduar",
+		lat: "26.8668",
+		lng: "92.7805",
+		total: "1500",
+		active: "1250",
+		iot: "1000",
+		upcoming: "237",
+		admins: ["admin2", "supervisor2", "sdo2", "engineer2"],
+	},
+	{
+		id: "3",
+		title: "Tezpur",
+		lat: "26.6528",
+		lng: "92.7926",
+		total: "1500",
+		active: "1250",
+		iot: "1000",
+		upcoming: "237",
+		admins: ["admin3", "supervisor3", "sdo3", "engineer3"],
+	},
+];
